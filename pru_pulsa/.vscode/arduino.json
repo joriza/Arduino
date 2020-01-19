@@ -1,5 +1,5 @@
 {
-    "sketch": "../disp02/display02.ino",
+    "sketch": "pulsa01.ino",
     "board": "arduino:avr:nano",
     "configuration": "cpu=atmega328old",
     "port": "/dev/ttyUSB0"

@@ -1,6 +1,6 @@
 #include "TM1637.h"
-#define CLK 3    
-#define DIO 2
+#define DIO 12 //Pin digital 2, pin fisico 15
+#define CLK 11  
 
 //Contador cada 100 ms
 
@@ -18,7 +18,7 @@ void loop()
        for (int i = 0 ; i<10000 ; i++)
             {
                 CalculaDigitos(i);
-                delay(100);
+                delay(500);
              }
    }
 
