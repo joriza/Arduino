@@ -1,6 +1,3 @@
-#include "TM1637.h"
-#define DIO 12 //Pin digital 2, pin fisico 15
-#define CLK 11  
 #define ON HIGH                 // Cambiar para logica positiva/negativa
 #define OF LOW                  // Cambiar para logica positiva/negativa
 
@@ -11,6 +8,12 @@ para ejemplificar las acciones de un sillon odontologico
 1 para la Luz
 1 para el agua
 Falta corregir / agregar
+
+Que solo funcione 1 cosa a la vez de las que consumen mucho
+Tiempo de bacha y valor
+Posicion cero, salida paciente
+
+
 Los limites de carrera para seguridad
 Efecto rebote en los botones
 El agua carga por un tiempo determinado, que se pueda frenar.
@@ -19,9 +22,6 @@ que cuente las vueltas
 al menos 3 memorias para la posicion del sillon
 
 */
-
-TM1637 Display1(CLK,DIO);
-int8_t Digits[] = {1,2,3,4};
 
 
 // Constantes para definir los pines
@@ -50,10 +50,6 @@ bool EstadoPin=false;
 bool AnteriorEstadoPin=false;
 
 void setup() {
-
-  Display1.set();
-  Display1.init() ;
-
   // Activamos los pines de entrada y salida
   pinMode(pulsIzq, INPUT_PULLUP); //Define D4
   pinMode(pulsDer, INPUT_PULLUP); 
@@ -69,6 +65,7 @@ void setup() {
   pinMode(ledAgu, OUTPUT);
   // incializamos estados
   digitalWrite(ledLuz , LOW) ; // Apagamos Luz al comenzar
+  digitalWrite(ledAgu , LOW) ; // Apagamos Agua al comenzar
 }
 
 void loop() {
@@ -126,6 +123,5 @@ void loop() {
     digitalWrite (ledAgu, OF);          // Apagar
     T_Control=0;                        // Dejamos de controlar
   }
-
 
 }

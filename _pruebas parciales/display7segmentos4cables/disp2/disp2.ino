@@ -1,5 +1,8 @@
+// Contador por display 7 segmentos 4 pines
+// Incremento por tiempo fijo
+
 #include "TM1637.h"
-#define DIO 12 //Pin digital 2, pin fisico 15
+#define DIO 12 //Pin digital 12, pin fisico nano 15
 #define CLK 11  
 
 //Contador cada 100 ms
