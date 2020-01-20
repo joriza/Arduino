@@ -1,11 +1,12 @@
 #define ON HIGH                 // Cambiar para logica positiva/negativa
 #define OF LOW                  // Cambiar para logica positiva/negativa
+#define PS LOW                  // Cambiar para logica positiva/negativa
+#define PN HIGH                  // Cambiar para logica positiva/negativa
 
 /*
 Que solo funcione 1 cosa a la vez de las que consumen mucho
 Tiempo de bacha y valor
 Posicion cero, salida paciente
-
 
 Los limites de carrera para seguridad
 Efecto rebote en los botones
@@ -15,7 +16,6 @@ que cuente las vueltas
 al menos 3 memorias para la posicion del sillon
 
 */
-
 
 // Constantes para definir los pines
 // Tener en cuenta que los pines fisicos no se corresponden con los digitales y cambian segun el modelo del arduino
@@ -35,13 +35,15 @@ const int ouLampara = A4;
 const int ouVaso = A5;  
 
 int valorPulsador = 0;  //variable intermedia para verificar si se oprimio un pulsador
-bool estadoLampara = false ; //Estado de la iluminacion
+bool estadoLampara = OF ; //Estado de la iluminacion
+int valorSalida;  //variable axiliar 
+//bool algunPulsadorActivo = flase;  //variable axiliar
 
 //Definiciones para el manejo del vaso
 unsigned long T_Control=0;      // Para controlar el tiempo consumido
 unsigned long T_Apagar=3000;    // Tiempo de funcionamiento
-bool EstadoPin=true; //Pulsador sin presionar           
-bool AnteriorEstadoPin=true; //Pulsador sin presionar
+bool EstadoPin=PN; //Pulsador sin presionar           
+bool AnteriorEstadoPin=PN; //Pulsador sin presionar
 
 void setup() {
   // Define los pines de entrada
@@ -75,26 +77,33 @@ void loop() {
 
 void VerificarPulsadorRespaldoAtras() {
   valorPulsador = digitalRead(inRespaldoAtras); //asignar estado del pulsador a una variable
- 
-  if (valorPulsador == HIGH) {   // High No pulsado
-    digitalWrite(ouRespaldoAtras, LOW);
-    digitalWrite(ouLampara, estadoLampara); //restaurar estado de lampara
-  }
-  else {
-    if (estadoLampara == true) {
+  valorSalida   = ouRespaldoAtras;
+   if (valorPulsador == PS) {
+    //algunPulsadorActivo = true
+    //if (digitalRead(ouRespaldoAdelante) == ON 
+    if (estadoLampara == ON) {
       digitalWrite(ouLampara, LOW); //apagar lampara porque estaba prendida
     }
-    digitalWrite(ouRespaldoAtras, HIGH);
+    digitalWrite(valorSalida, HIGH);
+  }
+  else {
+    digitalWrite(valorSalida, LOW);
+    digitalWrite(ouLampara, estadoLampara); //restaurar estado de lampara
   }
 }
 
 void VerificarPulsadorRespaldoAdelante() {
-
-  if (digitalRead(inRespaldoAdelante) == HIGH) {
-      digitalWrite(ouRespaldoAdelante, LOW);
+  valorPulsador = digitalRead(inRespaldoAdelante); //asignar estado del pulsador a una variable
+  valorSalida   = ouRespaldoAdelante;
+   if (valorPulsador == PS) { 
+    if (estadoLampara == ON) {
+      digitalWrite(ouLampara, LOW); //apagar lampara porque estaba prendida
+    }
+    digitalWrite(valorSalida, HIGH);
   }
   else {
-      digitalWrite(ouRespaldoAdelante, HIGH);
+    digitalWrite(valorSalida, LOW);
+    digitalWrite(ouLampara, estadoLampara); //restaurar estado de lampara
   }
 }
 
